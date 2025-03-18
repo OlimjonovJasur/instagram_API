@@ -8,4 +8,6 @@ urlpatterns = [
     path('products/<int:pk>/', views.ProductRetrieveUpdateDestroyView.as_view(), name='product-detail'),
     path('images/', views.ImageListCreateView.as_view(), name='image-list-create'),
     path('images/<int:pk>/', views.ImageRetrieveUpdateDestroyView.as_view(), name='image-detail'),
+    path('comment/', views.CommentListView.as_view(), name='comment-list'),
+    path('comment/<int:pk>/', views.CommentListByProductView.as_view(), name='comment_list_by_product')
 ]

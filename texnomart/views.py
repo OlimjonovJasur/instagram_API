@@ -1,12 +1,13 @@
 from django.shortcuts import render
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from texnomart.models import Product
-from texnomart.serializers import ProductModelSerializer
+from texnomart.models import Product, Comment
+
 from rest_framework import generics
-from texnomart.models import Category, Product, Image
-from texnomart.serializers import CategorySerializer, ProductModelSerializer, ImageSerializer
+from texnomart.models import Category, Product, Image, Comment
+from texnomart.serializers import CategorySerializer, ProductModelSerializer, ImageModelSerializer, CommentModelSerializer
 
 
 
@@ -19,6 +20,8 @@ class CategoryListCreateView(generics.ListCreateAPIView):
 class CategoryRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
 
 
 # Product
@@ -35,15 +38,27 @@ class ProductRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 #Image
 class ImageListCreateView(generics.ListCreateAPIView):
     queryset = Image.objects.all()
-    serializer_class = ImageSerializer
+    serializer_class = ImageModelSerializer
 
 
 class ImageRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Image.objects.all()
-    serializer_class = ImageSerializer
+    serializer_class = ImageModelSerializer
 
 
+#Comment
+class CommentListView(ListAPIView):
+    serializer_class = CommentModelSerializer
+    queryset = Comment.objects.all()
 
+
+class CommentListByProductView(ListAPIView):
+    serializer_class = CommentModelSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        product_id = self.kwargs['pk']
+        queryset = Comment.objects.filter(product_id=product_id)
+        return queryset
 
 
 
