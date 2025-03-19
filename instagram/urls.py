@@ -1,8 +1,9 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from instagram import views
 
 urlpatterns = [
-    path('post-list/', views.PostListOrCreate.as_view(), name='post-list'),
-    path('post-list/<int:pk>/', views.PostDetail.as_view(), name='post-detail'),
+    path('posts/', views.PostListView.as_view(), name='post-list'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
+    path('posts/<int:pk>/delete/', views.PostTwoDeleteView.as_view(), name='post-delete'),
+    path('comments/', views.CommentListView.as_view(), name='comment-list'),
 ]
