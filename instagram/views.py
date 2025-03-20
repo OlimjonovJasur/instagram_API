@@ -1,6 +1,9 @@
+from multiprocessing.managers import Token
+
 from django.core.serializers import serialize
 from django.db.models import Max, Min, Count, Avg
 from django.shortcuts import render
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, UpdateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView, \
     ListCreateAPIView
@@ -12,8 +15,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from instagram.serializers import PostModelSerializer, CommentModelSerializer
 from instagram.models import Post, Comment
-from instagram.permessions import GetOrPostPermission, IsOwner, IsNotAliUpdateDelete, NotDeleteAfterTwoMinutes, \
-    IsWeekday
+from instagram.permessions import GetOrPostPermission, IsOwner, IsNotAliUpdateDelete, NotDeleteAfterTwoMinutes,  IsWeekday
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 # Create your views here.
@@ -116,6 +119,7 @@ class PostListView(ListAPIView):
     serializer_class = PostModelSerializer
     queryset = Post.objects.all()
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication, ]
 
 
 class PostDetailView(RetrieveUpdateDestroyAPIView):
