@@ -16,6 +16,8 @@ class ProductModelSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField()
     slug = serializers.SlugField(source='category.slug', read_only=True)
     avg_rating = serializers.SerializerMethodField()
+    post_title = serializers.CharField(source='category.title', read_only=True)
+
 
 
     def get_likes(self, instance):
@@ -40,6 +42,7 @@ class ProductModelSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField(source='product_count', read_only=True)
     class Meta:
         model = Category
         fields = '__all__'
